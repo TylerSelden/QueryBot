@@ -35,7 +35,7 @@ app.post('/api/get_answer', async (req, res) => {
 
 
   var out = await model(data.question, contextFiles[data.context]);
-  res.send({ answer: out.answer });
+  res.send(out);
 });
 
 
