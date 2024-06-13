@@ -5,6 +5,7 @@
     "key": "./secrets/key.pem"
   },
   "port": 8080,
+  "reloadInterval": 300,
   "keys": "./secrets/keys.json",
   "context": "./context",
   "ai": {

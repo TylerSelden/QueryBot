@@ -7,26 +7,13 @@ import http from "http";
 import https from "https";
 
 
+var config = {};
+var keys = {};
+var contextFiles = {};
+var model;
 
 console.clear();
-console.log("Loading config from 'config.json'...");
-const config = JSON.parse(fs.readFileSync("config.json", "utf8"));
-
-console.log(`Config loaded, loading API keys from '${config.keys}'...`);
-const keys = JSON.parse(fs.readFileSync(config.keys, "utf8"));
-
-console.log(`API keys loaded, loading context files from './context'...`);
-const contextFiles = {};
-for (const file of fs.readdirSync("./context")) {
-  if (!file.endsWith(".txt")) continue;
-  contextFiles[path.parse(file).name] = path.join("./context", file);
-}
-console.log(`Context files loaded: ${Object.keys(contextFiles).join(", ")}.`);
-
-
-console.log(`Loading model '${config.ai.model}'...`);
-const model = await pipeline(config.ai.task, config.ai.model);
-console.log(`Model loaded, starting server...`);
+await loadConfig();
 
 
 const app = express();
@@ -47,9 +34,10 @@ app.post('/api/get_answer', async (req, res) => {
   if (data.context == undefined || typeof(data.context) !== "string" || data.context.length < 1 || contextFiles[data.context] == undefined) return res.sendStatus(400);
 
 
-  var out = await model(data.question, fs.readFileSync(contextFiles[data.context], "utf8"));
+  var out = await model(data.question, contextFiles[data.context]);
   res.send({ answer: out.answer });
 });
+
 
 
 if (config.useHTTPS) {
@@ -62,7 +50,42 @@ if (config.useHTTPS) {
 }
 
 
-console.log(`\nServer successfully started on port :${config.port}!\n`);
-console.log(`================================================================================================================
+console.log(`\nServer successfully started on port ${config.port}!
+
+================================================================================================================
 ||    Note: After re-writing any files, you need to restart the server (this will likely change over time).   ||
 ================================================================================================================`);
+
+async function loadConfig() {
+  console.log("Loading config from './config.json'...");
+  config = JSON.parse(fs.readFileSync("config.json", "utf8"));
+
+  console.log(`Config loaded, loading API keys from '${config.keys}'...`);
+  keys = JSON.parse(fs.readFileSync(config.keys, "utf8"));
+
+
+
+  console.log(`API keys loaded, loading context files from './context'...`);
+  for (var dir of fs.readdirSync("./context")) {
+    if (!fs.lstatSync(path.join("./context", dir)).isDirectory()) continue;
+
+    var data = "";
+    for (var file of fs.readdirSync(path.join("./context", dir))) {
+      if (file.endsWith(".txt")) {
+        data += fs.readFileSync(path.join("./context", dir, file), "utf8") + "\n";
+      } // add other file format parsers here
+    }
+    
+    contextFiles[dir] = data;
+  }
+  console.log(`Context files loaded: ${Object.keys(contextFiles).join(", ")}.`);
+
+  console.log(`Loading model '${config.ai.model}'...`);
+  model = await pipeline(config.ai.task, config.ai.model);
+  console.log(`Model loaded! Config reloading in ${config.reloadInterval} seconds...\n`);
+
+  setTimeout(async () => {
+    console.log("\nRelodaing config...\n");
+    await loadConfig();
+  }, config.reloadInterval * 1000);
+}
