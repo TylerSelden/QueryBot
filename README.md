@@ -13,6 +13,7 @@ To get the server up and running, simply clone the repository, `cd` into it, and
 ```bash
 git clone https://github.com/TylerSelden/QueryBot
 cd QueryBot
+npm i
 npm start
 ```
 
