@@ -1,0 +1,14 @@
+{
+  "useHTTPS": false,
+  "HTTPS": {
+    "cert": "./secrets/cert.pem",
+    "key": "./secrets/key.pem"
+  },
+  "port": 8080,
+  "keys": "./secrets/keys.json",
+  "context": "./context",
+  "ai": {
+    "task": "question-answering",
+    "model": "Xenova/distilbert-base-cased-distilled-squad"
+  }
+}
