@@ -1,0 +1,341 @@
+{
+  "settings": {
+    "languages": [
+      "en"
+    ],
+    "forceNER": true,
+    "nlu": {
+      "log": false
+    },
+    "tag": "nlp",
+    "threshold": 0.5,
+    "autoLoad": true,
+    "autoSave": true,
+    "modelFileName": "model.nlp",
+    "executeActionsBeforeAnswers": false,
+    "calculateSentiment": true
+  },
+  "nluManager": {
+    "settings": {
+      "tag": "nlu-manager",
+      "log": false
+    },
+    "locales": [
+      "en"
+    ],
+    "languageNames": {},
+    "domainManagers": {
+      "en": {
+        "settings": {
+          "locale": "en",
+          "trainByDomain": false,
+          "tag": "domain-manager-en",
+          "nluByDomain": {
+            "default": {
+              "className": "NeuralNlu",
+              "settings": {}
+            }
+          },
+          "useStemDict": true
+        },
+        "stemDict": {
+          "default": {
+            "intent": "This is a test.",
+            "domain": "master_domain"
+          },
+          "hello": {
+            "intent": 1,
+            "domain": "default"
+          },
+          "hi": {
+            "intent": 1,
+            "domain": "default"
+          },
+          "bye": {
+            "intent": 2,
+            "domain": "default"
+          },
+          "go,have,i,to": {
+            "intent": 2,
+            "domain": "default"
+          }
+        },
+        "intentDict": {
+          "1": "default",
+          "2": "default",
+          "Testing...": "master_domain",
+          "This is a test.": "master_domain"
+        },
+        "sentences": [
+          {
+            "domain": "master_domain",
+            "utterance": "default",
+            "intent": "Testing..."
+          },
+          {
+            "domain": "master_domain",
+            "utterance": "default",
+            "intent": "This is a test."
+          },
+          {
+            "domain": "default",
+            "utterance": "Hello.",
+            "intent": 1
+          },
+          {
+            "domain": "default",
+            "utterance": "Hi!",
+            "intent": 1
+          },
+          {
+            "domain": "default",
+            "utterance": "Bye!",
+            "intent": 2
+          },
+          {
+            "domain": "default",
+            "utterance": "I have to go.",
+            "intent": 2
+          }
+        ],
+        "domains": {
+          "master_domain": {
+            "settings": {
+              "locale": "en",
+              "tag": "nlu-en",
+              "keepStopwords": true,
+              "nonefeatureValue": 1,
+              "nonedeltaMultiplier": 1.2,
+              "spellCheck": false,
+              "spellCheckDistance": 1,
+              "filterZeros": true,
+              "log": true
+            },
+            "features": {
+              "default": 1,
+              "hello": 1,
+              "hi": 1,
+              "bye": 1,
+              "i": 1,
+              "have": 1,
+              "to": 1,
+              "go": 1
+            },
+            "intents": {
+              "1": 1,
+              "2": 1,
+              "Testing...": 1,
+              "This is a test.": 1
+            },
+            "intentFeatures": {
+              "1": {
+                "hello": 1,
+                "hi": 1
+              },
+              "2": {
+                "bye": 1,
+                "i": 1,
+                "have": 1,
+                "to": 1,
+                "go": 1
+              },
+              "Testing...": {
+                "default": 1
+              },
+              "This is a test.": {
+                "default": 1
+              }
+            },
+            "featuresToIntent": {
+              "hello": [
+                "1"
+              ],
+              "hi": [
+                "1"
+              ],
+              "bye": [
+                "2"
+              ],
+              "i": [
+                "2"
+              ],
+              "have": [
+                "2"
+              ],
+              "to": [
+                "2"
+              ],
+              "go": [
+                "2"
+              ],
+              "default": [
+                "Testing...",
+                "This is a test."
+              ]
+            },
+            "neuralNetwork": {
+              "settings": {
+                "locale": "en",
+                "tag": "nlu-en",
+                "keepStopwords": true,
+                "nonefeatureValue": 1,
+                "nonedeltaMultiplier": 1.2,
+                "spellCheck": false,
+                "spellCheckDistance": 1,
+                "filterZeros": true
+              },
+              "features": [
+                "default",
+                "hello",
+                "hi",
+                "bye",
+                "i",
+                "have",
+                "to",
+                "go"
+              ],
+              "intents": [
+                "Testing...",
+                "This is a test.",
+                "1",
+                "2"
+              ],
+              "perceptrons": [
+                [
+                  5.901332378387451,
+                  -1.0950297117233276,
+                  -1.0950168371200562,
+                  -1.0950037240982056,
+                  -0.30053257942199707,
+                  -0.30053257942199707,
+                  -0.30053257942199707,
+                  -0.30053257942199707,
+                  1.0954982051920583
+                ],
+                [
+                  6.143411636352539,
+                  -1.2067450284957886,
+                  -1.2053622007369995,
+                  -1.2045402526855469,
+                  -0.3414580821990967,
+                  -0.3414580821990967,
+                  -0.3414580821990967,
+                  -0.3414580821990967,
+                  1.1451957147385596
+                ],
+                [
+                  -4.5714240074157715,
+                  9.714282989501953,
+                  9.714282989501953,
+                  -4.5714240074157715,
+                  -1.1428565979003906,
+                  -1.1428565979003906,
+                  -1.1428565979003906,
+                  -1.1428565979003906,
+                  4.571426856917834
+                ],
+                [
+                  -2.858153820037842,
+                  -2.8569495677948,
+                  -2.8569495677948,
+                  11.428759574890137,
+                  2.8571908473968506,
+                  2.8571908473968506,
+                  2.8571908473968506,
+                  2.8571908473968506,
+                  2.8569512130313632
+                ]
+              ]
+            }
+          }
+        }
+      }
+    },
+    "intentDomains": {},
+    "extraSentences": [
+      [
+        "en",
+        "Testing..."
+      ],
+      [
+        "en",
+        "This is a test."
+      ],
+      [
+        "en",
+        "Hello."
+      ],
+      [
+        "en",
+        "Hi!"
+      ],
+      [
+        "en",
+        "Bye!"
+      ],
+      [
+        "en",
+        "I have to go."
+      ]
+    ]
+  },
+  "ner": {
+    "settings": {
+      "tag": "ner",
+      "entityPreffix": "%",
+      "entitySuffix": "%"
+    },
+    "rules": {}
+  },
+  "nlgManager": {
+    "settings": {
+      "tag": "nlg-manager"
+    },
+    "responses": {
+      "en": {
+        "0": [
+          {
+            "answer": "Test successful."
+          },
+          {
+            "answer": "Test is all good."
+          }
+        ],
+        "1": [
+          {
+            "answer": "Hi there!"
+          },
+          {
+            "answer": "What's up?"
+          }
+        ],
+        "2": [
+          {
+            "answer": "See ya!"
+          },
+          {
+            "answer": "Have a nice day!"
+          }
+        ],
+        "None": [
+          {
+            "answer": "Sorry, I don't understand."
+          },
+          {
+            "answer": "I don't know the answer to that."
+          },
+          {
+            "answer": "Sorry, I'm not sure. Maybe try rephrasing your question."
+          }
+        ]
+      }
+    }
+  },
+  "actionManager": {
+    "settings": {
+      "tag": "action-manager"
+    },
+    "actions": {}
+  },
+  "slotManager": {}
+}

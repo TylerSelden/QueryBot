@@ -1,0 +1,60 @@
+{
+  "locale": "en",
+  "utterance": "Bye!",
+  "languageGuessed": false,
+  "localeIso2": "en",
+  "language": "English",
+  "explanation": [
+    {
+      "token": "",
+      "stem": "##exact",
+      "weight": 1
+    }
+  ],
+  "classifications": [
+    {
+      "intent": 2,
+      "score": 1
+    },
+    {
+      "intent": "1",
+      "score": 0
+    },
+    {
+      "intent": "2",
+      "score": 0
+    },
+    {
+      "intent": "Testing",
+      "score": 0
+    },
+    {
+      "intent": "This is a test",
+      "score": 0
+    }
+  ],
+  "intent": 2,
+  "score": 1,
+  "domain": "default",
+  "sourceEntities": [],
+  "entities": [],
+  "answers": [
+    {
+      "answer": "See ya!"
+    },
+    {
+      "answer": "Have a nice day!"
+    }
+  ],
+  "answer": "See ya!",
+  "actions": [],
+  "sentiment": {
+    "score": 0,
+    "numWords": 1,
+    "numHits": 0,
+    "average": 0,
+    "type": "senticon",
+    "locale": "en",
+    "vote": "neutral"
+  }
+}
