@@ -101,9 +101,9 @@ To access the API, create a POST request to the server hosting QueryBot, on the 
 
 ```json
 {
-"question": "<Your question>",
-"model": "<AI model>",
-"key": "<API key>"
+  "question": "<Your question>",
+  "model": "<AI model>",
+  "key": "<API key>"
 }
 ```
 
