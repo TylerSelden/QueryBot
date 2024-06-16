@@ -56,6 +56,7 @@ console.log(`\nServer successfully started on port ${config.port}!
 
 
 function loadModels() {
+  models = {};
   fs.readdirSync(config.models).forEach(file => {
     if (!file.endsWith(".nlp")) return;
     var name = path.parse(file).name;
