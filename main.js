@@ -1,21 +1,20 @@
-import { pipeline } from "@xenova/transformers";
-import * as fs from "fs";
-import path from "path";
-import express from "express";
-import cors from "cors";
-import http from "http";
-import https from "https";
+// importing stuff
+const NLPManager = require("node-nlp").NlpManager;
+const fs = require("fs");
+const path = require("path");
+const express = require("express");
+const cors = require("cors");
+const http = require("http");
+const https = require("https");
 
-
+// defining other variables
 var config = {};
 var keys = {};
-var contextFiles = {};
-var model;
+var models = {};
 
-console.clear();
-await loadConfig();
+loadConfig();
 
-
+// setting up express
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: '*' }));
@@ -25,19 +24,17 @@ app.use((err, req, res, next) => {
 });
 
 
-
 app.post('/api/get_answer', async (req, res) => {
   var data = req.body;
 
   if (!keys.includes(data.key)) return res.sendStatus(401);
   if (data.question == undefined || typeof(data.question) !== "string" || data.question.length < 1) return res.sendStatus(400);
-  if (data.context == undefined || typeof(data.context) !== "string" || data.context.length < 1 || contextFiles[data.context] == undefined) return res.sendStatus(400);
+  if (data.model == undefined || typeof(data.model) !== "string" || data.model.length < 1 || models[data.model] == undefined) return res.sendStatus(400);
 
 
-  var out = await model(data.question, contextFiles[data.context]);
+  var out = await models[data.model].process(data.question);
   res.send(out);
 });
-
 
 
 if (config.useHTTPS) {
@@ -56,6 +53,17 @@ console.log(`\nServer successfully started on port ${config.port}!
 ||    Note: After re-writing any files, you need to restart the server (this will likely change over time).   ||
 ================================================================================================================`);
 
+
+
+function loadModels() {
+  fs.readdirSync(config.models).forEach(file => {
+    if (!file.endsWith(".nlp")) return;
+    var name = path.parse(file).name;
+    models[name] = new NLPManager({ languages: ["en"], forceNER: true});
+    models[name].load(path.join(config.models, file));
+  });
+}
+
 async function loadConfig() {
   console.log("Loading config from './config.json'...");
   config = JSON.parse(fs.readFileSync("config.json", "utf8"));
@@ -65,26 +73,15 @@ async function loadConfig() {
 
 
 
-  console.log(`API keys loaded, loading context files from './context'...`);
-  for (var dir of fs.readdirSync("./context")) {
-    if (!fs.lstatSync(path.join("./context", dir)).isDirectory()) continue;
+  console.log(`API keys loaded! Loading models...`);
+  loadModels();
 
-    var data = "";
-    for (var file of fs.readdirSync(path.join("./context", dir))) {
-      if (file.endsWith(".txt")) {
-        data += fs.readFileSync(path.join("./context", dir, file), "utf8") + "\n";
-      } // add other file format parsers here
-    }
-    
-    contextFiles[dir] = data;
-  }
-  console.log(`Context files loaded: ${Object.keys(contextFiles).join(", ")}.`);
-
-  console.log(`Loading model '${config.ai.model}'...`);
-  model = await pipeline(config.ai.task, config.ai.model);
-  console.log(`Model loaded! Config reloading in ${config.reloadInterval} seconds...\n`);
+  console.log(`Models loaded:
+  ${Object.keys(models).join(", ")}\n`);
+  console.log(`Config reloading in ${config.reloadInterval} seconds...\n`);
 
   setTimeout(async () => {
+    console.clear();
     console.log("\nRelodaing config...\n");
     await loadConfig();
   }, config.reloadInterval * 1000);

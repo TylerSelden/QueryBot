@@ -7,9 +7,5 @@
   "port": 8080,
   "reloadInterval": 30,
   "keys": "./secrets/keys.json",
-  "context": "./context",
-  "ai": {
-    "task": "question-answering",
-    "model": "Xenova/distilbert-base-cased-distilled-squad"
-  }
+  "models": "./models"
 }
