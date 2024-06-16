@@ -1,3 +1,5 @@
-secrets
+secrets/*
 node_modules
-models
+models/*
+trainer/data/*
+trainer/models/*
