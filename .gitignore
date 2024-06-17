@@ -2,4 +2,3 @@ secrets/*
 node_modules
 models/*
 trainer/data/*
-trainer/models/*
