@@ -26,7 +26,7 @@ function processData(path, defaults) {
 async function train(manager, savePath) {
   await manager.train();
   manager.save(savePath);
-  if (fs.existsSync("model.nlp")) fs.unlinkSync( "model.nlp");
+  if (fs.existsSync("model.nlp")) fs.unlinkSync("model.nlp");
 }
 
 async function trainModel(name, testQuery) {
