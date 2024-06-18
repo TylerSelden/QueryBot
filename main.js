@@ -31,6 +31,16 @@ app.post('/api/get_answer', async (req, res) => {
   if (data.question == undefined || typeof(data.question) !== "string" || data.question.length < 1) return res.sendStatus(400);
   if (data.model == undefined || typeof(data.model) !== "string" || data.model.length < 1 || models[data.model] == undefined) return res.sendStatus(400);
 
+  var out = await models[data.model].process(data.question);
+  res.send(out.answer);
+});
+
+app.post('/api/get_response', async (req, res) => {
+  var data = req.body;
+
+  if (!keys.includes(data.key)) return res.sendStatus(401);
+  if (data.question == undefined || typeof(data.question) !== "string" || data.question.length < 1) return res.sendStatus(400);
+  if (data.model == undefined || typeof(data.model) !== "string" || data.model.length < 1 || models[data.model] == undefined) return res.sendStatus(400);
 
   var out = await models[data.model].process(data.question);
   res.send(out);

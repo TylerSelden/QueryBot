@@ -97,7 +97,7 @@ Recap:
 
 ## API
 
-To access the API, create a POST request to the server hosting QueryBot, on the correct port, on the path `/api/answer_question`. The request should be in JSON formatting, and adhere to the following structure:
+To access the API, create a POST request to the server hosting QueryBot, on the correct port, on the path `/api/get_answer`. The request should be in JSON formatting, and adhere to the following structure:
 
 ```json
 {
@@ -107,7 +107,9 @@ To access the API, create a POST request to the server hosting QueryBot, on the 
 }
 ```
 
-The API will return `HTTP_401` if the key is invalid, and `HTTP_400` if the data is invalid. Otherwise, the response will have a JSON format. This JSON object contains a lot of data, so rather than documenting it all here, documentation for it can be found in the `node-nlp` docs. Most of the data won't be needed, so it's recommended that you explore the responses from the API a bit and see what data you want.
+The API will return `HTTP_401` if the key is invalid, and `HTTP_400` if the data is invalid. Otherwise, the response will be raw text, containing the answer to the question.
+
+If you want more details than just the answer, you can make the request to `/api/get_response`, which will provide much more information about the response.
 
 ## Examples
 
