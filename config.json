@@ -8,6 +8,7 @@
   "reloadInterval": 30,
   "keys": "./secrets/keys.json",
   "models": "./models",
+  "feedback": "./feedback",
   "trainer": {
     "data": "./data",
     "defaults": ["Sorry, I don't understand.", "I don't know the answer to that.", "Sorry, I'm not sure. Maybe try rephrasing your question."]

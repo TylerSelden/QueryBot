@@ -46,6 +46,16 @@ app.post('/api/get_response', async (req, res) => {
   res.send(out);
 });
 
+app.post('/api/send_feedback', (req, res) => {
+  var data = req.body;
+  if (!keys.includes(data.key)) return res.sendStatus(401);
+  if (data.feedback == undefined || typeof(data.feedback) !== "string" || data.feedback.length < 1) return res.sendStatus(400);
+  if (data.model == undefined || typeof(data.model) !== "string" || data.model.length < 1 || models[data.model] == undefined) return res.sendStatus(400);
+  fs.appendFileSync(path.join(config.feedback, `${data.model}.txt`), data.feedback + "\n");
+
+  res.send("Thanks for your feedback!");
+});
+
 
 if (config.useHTTPS) {
   https.createServer({

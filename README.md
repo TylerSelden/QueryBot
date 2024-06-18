@@ -97,7 +97,7 @@ Recap:
 
 ## API
 
-To access the API, create a POST request to the server hosting QueryBot, on the correct port, on the path `/api/get_answer`. The request should be in JSON formatting, and adhere to the following structure:
+To access the API, create a POST request to the server hosting QueryBot, on the correct port. The request should be in JSON formatting, and adhere to the following structure:
 
 ```json
 {
@@ -107,9 +107,13 @@ To access the API, create a POST request to the server hosting QueryBot, on the 
 }
 ```
 
-The API will return `HTTP_401` if the key is invalid, and `HTTP_400` if the data is invalid. Otherwise, the response will be raw text, containing the answer to the question.
+The API will return `HTTP_401` if the key is invalid, and `HTTP_400` if the data is invalid. Otherwise, the response will be either raw text or JSON data.
 
-If you want more details than just the answer, you can make the request to `/api/get_response`, which will provide much more information about the response.
+- `/api/get_answer`: Gives the raw text answer to the question.
+- `/api/get_response`: Gives a JSON object with the answer, confidence, and more.
+- `/api/send_feedback`: Sends feedback to the developers. Use this to send questions that the model did not know how to respond to, to improve the model.
+
+**Note:** When sending feedback, replace the `question` parameter with one called `feedback`.
 
 ## Examples
 
